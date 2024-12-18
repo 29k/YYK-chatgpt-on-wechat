@@ -12,6 +12,8 @@ from common.dequeue import Dequeue
 from common import memory
 from plugins import *
 
+from mytask.task_scheduler import  task_volume_predict
+
 try:
     from voice.audio_convert import any_to_wav
 except Exception as e:
@@ -89,12 +91,29 @@ class ChatChannel(Channel):
                 logger.debug("[chat_channel]self message skipped")
                 return None
 
+        # 消息内容匹配过程，并处理content 触发定制任务
+
+        
+
+
         # 消息内容匹配过程，并处理content
         if ctype == ContextType.TEXT:
             if first_in and "」\n- - - - - - -" in content:  # 初次匹配 过滤引用消息
                 logger.debug(content)
                 logger.debug("[chat_channel]reference query skipped")
                 return None
+            
+            # YYK 消息内容匹配过程，并处理content 触发定制任务
+            if context.get("isgroup", False):  # 群聊
+                # 校验关键字
+                match_prefix = check_prefix(content, conf().get("task_code_list"))
+                if match_prefix:
+                    print("missong get from task_code_list")
+                    content = content.replace(match_prefix, "", 1).strip()
+                    print(content)
+                    print(type(content))
+                    task_volume_predict()
+                    return None
 
             nick_name_black_list = conf().get("nick_name_black_list", [])
             if context.get("isgroup", False):  # 群聊
