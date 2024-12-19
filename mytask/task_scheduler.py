@@ -33,6 +33,12 @@ def task_volume_predict():
             logger.info("group_id >>> " +  str(group_id))
             send_message(group_id, message)
 
+def fetch_volume_predict():
+    print("fetch_volume_predict_data fetch_data is running... ")
+    data = fetch_volume_predict_data(payload_list)
+    message = format_message(data)
+    return message
+
 def run_scheduler():
     print("Scheduler is start")
     # Schedule tasks

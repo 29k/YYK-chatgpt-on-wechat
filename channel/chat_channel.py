@@ -11,6 +11,7 @@ from channel.channel import Channel
 from common.dequeue import Dequeue
 from common import memory
 from plugins import *
+from loguru import logger
 
 from mytask.task_scheduler import  task_volume_predict
 
@@ -103,17 +104,17 @@ class ChatChannel(Channel):
                 logger.debug("[chat_channel]reference query skipped")
                 return None
             
-            # YYK 消息内容匹配过程，并处理content 触发定制任务
-            if context.get("isgroup", False):  # 群聊
-                # 校验关键字
-                match_prefix = check_prefix(content, conf().get("task_code_list"))
-                if match_prefix:
-                    print("missong get from task_code_list")
-                    content = content.replace(match_prefix, "", 1).strip()
-                    print(content)
-                    print(type(content))
-                    task_volume_predict()
-                    return None
+            # # YYK 消息内容匹配过程，并处理content 触发定制任务
+            # if context.get("isgroup", False):  # 群聊
+            #     # 校验关键字
+            #     match_prefix = check_prefix(content, conf().get("task_code_list"))
+            #     if match_prefix:
+            #         print("missong get from task_code_list")
+            #         content = content.replace(match_prefix, "", 1).strip()
+            #         print(content)
+            #         print(type(content))
+            #         task_volume_predict()
+            #         return None
 
             nick_name_black_list = conf().get("nick_name_black_list", [])
             if context.get("isgroup", False):  # 群聊
@@ -347,8 +348,10 @@ class ChatChannel(Channel):
                     threading.BoundedSemaphore(conf().get("concurrency_in_session", 4)),
                 ]
             if context.type == ContextType.TEXT and context.content.startswith("#"):
+                logger.info("add context to sessions left")
                 self.sessions[session_id][0].putleft(context)  # 优先处理管理命令
             else:
+                logger.info("add context to sessions left")
                 self.sessions[session_id][0].put(context)
 
     # 消费者函数，单独线程，用于从消息队列中取出消息并处理

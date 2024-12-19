@@ -30,7 +30,7 @@ scheduler.add_job(scheduled_task, 'cron', hour=20, minute=26)  # At 10:30
 
 
 # Start the scheduler
-scheduler.start()
+
 
 
 
@@ -92,6 +92,7 @@ def run():
 
 if __name__ == "__main__":
     try:
+        scheduler.start()
         print("Starting WeChat bot with scheduled tasks...")
         run()
     except (KeyboardInterrupt, SystemExit):

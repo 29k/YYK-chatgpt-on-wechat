@@ -24,6 +24,7 @@ from common.utils import convert_webp_to_png, remove_markdown_symbol
 from config import conf, get_appdata_dir
 from lib import itchat
 from lib.itchat.content import *
+from loguru import logger
 
 
 @itchat.msg_register([TEXT, VOICE, PICTURE, NOTE, ATTACHMENT, SHARING])
@@ -39,11 +40,13 @@ def handler_single_msg(msg):
 
 @itchat.msg_register([TEXT, VOICE, PICTURE, NOTE, ATTACHMENT, SHARING], isGroupChat=True)
 def handler_group_msg(msg):
+    logger.info("get msg from gruop")
     try:
         cmsg = WechatMessage(msg, True)
     except NotImplementedError as e:
         logger.debug("[WX]group message {} skipped: {}".format(msg["MsgId"], e))
         return None
+    logger.info("get cmsg = " + cmsg.content)
     WechatChannel().handle_group(cmsg)
     return None
 
