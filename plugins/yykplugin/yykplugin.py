@@ -46,16 +46,11 @@ class Yykplugin(Plugin):
 
         if content == "交易量":
             # Fetch JSON data
-            #json_data = self.fetch_json()
-            formated_msg = fetch_volume_predict()
-            # Format JSON as string
-            #json_response = json.dumps(json_data, indent=4, ensure_ascii=False)
 
+            formated_msg = fetch_volume_predict()
             # Prepare the reply
             reply = Reply()
             reply.type = ReplyType.TEXT
-
-            #reply.content = json_response
             reply.content = formated_msg
             e_context["reply"] = reply
             e_context.action = EventAction.BREAK_PASS  # Stop further processing
