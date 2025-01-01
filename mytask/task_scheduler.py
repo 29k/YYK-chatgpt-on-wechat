@@ -36,6 +36,8 @@ def task_volume_predict():
 def fetch_volume_predict():
     print("fetch_volume_predict_data fetch_data is running... ")
     data = fetch_volume_predict_data(payload_list)
+    print("here is data >>>>>>>")
+    print(data)
     message = format_message(data)
     return message
 
