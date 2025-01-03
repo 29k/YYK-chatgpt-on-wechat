@@ -15,18 +15,18 @@ from lib.itchat import send, search_chatrooms
 from lib import itchat
 from datetime import datetime
 
-# Initialize the scheduler
-scheduler = BackgroundScheduler()
+# # Initialize the scheduler
+# scheduler = BackgroundScheduler()
 
 
-def scheduled_task():
-    print(f"Scheduled task executed at {datetime.now()}")
+# def scheduled_task():
+#     print(f"Scheduled task executed at {datetime.now()}")
 
 
 
-# Add jobs for specific times
-scheduler.add_job(scheduled_task, 'cron', hour=9, minute=10)  # At 9:10
-scheduler.add_job(scheduled_task, 'cron', hour=20, minute=26)  # At 10:30
+# # Add jobs for specific times
+# scheduler.add_job(scheduled_task, 'cron', hour=9, minute=10)  # At 9:10
+# scheduler.add_job(scheduled_task, 'cron', hour=20, minute=26)  # At 10:30
 
 
 # Start the scheduler
@@ -92,10 +92,11 @@ def run():
 
 if __name__ == "__main__":
     try:
-        scheduler.start()
-        print("Starting WeChat bot with scheduled tasks...")
+        #scheduler.start()
+        #print("Starting WeChat bot with scheduled tasks...")
         run()
     except (KeyboardInterrupt, SystemExit):
-        scheduler.shutdown()
+        print("Starting WeChat bot with scheduled tasks...")
+        #scheduler.shutdown()
 
 
